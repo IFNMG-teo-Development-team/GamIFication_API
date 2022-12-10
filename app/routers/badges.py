@@ -4,13 +4,13 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from starlette import status
 
-from sql_app import schemas
-from sql_app.crud import get_badges
-from sql_app.main import get_db
+from ..sql_app import schemas
+from ..sql_app.crud import get_badges
+from ..sql_app.main import get_db
 
-from sql_app.crud import get_gadge_by_id
+from ..sql_app.crud import get_gadge_by_id
 
-from sql_app.crud import create_user_badge
+from ..sql_app.crud import create_user_badge
 
 router = APIRouter(
     prefix="/badges",

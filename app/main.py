@@ -1,7 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Depends
-from internal import admin
-from routers import users, badges, stats, login
+from .internal import admin
+from .routers import users, badges, stats, login
 
 app = FastAPI()
 

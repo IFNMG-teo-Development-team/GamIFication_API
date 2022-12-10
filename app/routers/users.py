@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from typing import List, Dict
 
-from sql_app import schemas, models
-from sql_app.crud import get_users, get_user_by_id_social, change_type_user
-from sql_app.main import get_db
+from ..sql_app import schemas, models
+from ..sql_app.crud import get_users, get_user_by_id_social, change_type_user
+from ..sql_app.main import get_db
 
 router = APIRouter(
     prefix="/users",

@@ -2,9 +2,8 @@ import datetime
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from datetime import datetime
-from dotenv import load_dotenv
 from . import models, schemas
-from services import email
+from ..services import email
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
