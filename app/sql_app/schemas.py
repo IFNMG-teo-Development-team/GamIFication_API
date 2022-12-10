@@ -5,8 +5,8 @@ from datetime import date, time, datetime
 class Badge(BaseModel):
     idBadge: int
     name: str
-    date_create: datetime | None
-    date_end: datetime | None
+    date_create: datetime
+    date_end: datetime
     description: str
 
     Rarity_idRarity: int
@@ -18,8 +18,8 @@ class Badge(BaseModel):
 
 class BadgeCreate(BaseModel):
     name: str
-    date_create: datetime | None
-    date_end: datetime | None
+    date_create: datetime
+    date_end: datetime
     description: str
 
     Rarity_idRarity: int
