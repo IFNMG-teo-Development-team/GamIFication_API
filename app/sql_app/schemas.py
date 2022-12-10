@@ -56,7 +56,7 @@ class UserCreate(BaseModel):
     family_name: str
     email: str
     id_social: str
-    password: str | None
+    password: str
 
     class Config:
         schema_extra = {
