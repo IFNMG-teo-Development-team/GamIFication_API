@@ -142,3 +142,30 @@ class ResponseSchema(BaseModel):
     status: str
     message: str
     result: Optional[T] = None
+
+
+class UserToken(BaseModel):
+    idUser: int
+    type: int
+    given_name: str
+    family_name: str
+    email: str
+    id_social: str
+    result: Optional[T] = None
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "idUser": 1,
+                "type": 2,
+                "given_name": "Calvin",
+                "family_name": "IFeno",
+                "email": "calvif@gmail.com",
+                "id_social": "32192sdas90we",
+                "result": {
+                    "access_token": "asdasiojdhasidoasdaisdoasdaosidjasdhaidguaudgausdgasdiaugsdiadghaisdugasiudgasdiuasgdidgiasdg",
+                    "token_type": "Bearer"
+                }
+            }
+        }
+        orm_mode = True
