@@ -1,21 +1,18 @@
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
+from services.token import JWTBearer
+from sql_app import schemas
+from sql_app.crud import create_user_badge
+from sql_app.crud import get_badges
+from sql_app.crud import get_gadge_by_id
+from sql_app.main import get_db
 from sqlalchemy.orm import Session
-from starlette import status
-
-from ..sql_app import schemas
-from ..sql_app.crud import get_badges
-from ..sql_app.main import get_db
-
-from ..sql_app.crud import get_gadge_by_id
-
-from ..sql_app.crud import create_user_badge
 
 router = APIRouter(
     prefix="/badges",
     tags=["badges"],
-    # dependencies=[Depends(get_token_header)],
+    dependencies=[Depends(JWTBearer())],
     responses={404: {"description": "Not found"}},
 )
 

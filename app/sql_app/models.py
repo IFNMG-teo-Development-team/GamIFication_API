@@ -1,7 +1,4 @@
-import datetime
-from datetime import datetime
-
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DATETIME, func
+from sqlalchemy import Column, ForeignKey, Integer, String, DATETIME, func
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -44,18 +41,18 @@ class Rarity(Base):
     __tablename__ = "Rarity"
 
     idRarity = Column(Integer, primary_key=True, index=True)
-    xp = Column(Integer)
-    icon = Column(String, default=None)
-    name = Column(String)
-    min_xp = Column(String, default=None)
+    XP = Column(Integer)
+    Icon = Column(String, default=None)
+    Name = Column(String)
+    Min_XP = Column(String, default=None)
 
     Badge = relationship("Badge", back_populates="badge_rarity")
 
 
 class Stats(Base):
-    __tablename__ = "Stats"
+    __tablename__ = "stats"
 
-    idUser_has_Badge = Column(Integer, primary_key=True, index=True)
+    ID = Column(Integer, primary_key=True, index=True)
     Date_Acquirement = Column(DATETIME)
     Badge_idBadge = Column(Integer, ForeignKey("Badge.idBadge"))
     User_idUser = Column(Integer, ForeignKey("User.idUser"))

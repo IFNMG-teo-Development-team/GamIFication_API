@@ -1,9 +1,10 @@
-import os
-import io
-import qrcode
-import smtplib
-from PIL import Image
 import email.message
+import io
+import os
+import smtplib
+
+import qrcode
+from PIL import Image
 from dotenv import load_dotenv
 
 load_dotenv()
