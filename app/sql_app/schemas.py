@@ -1,6 +1,6 @@
 from datetime import datetime
-from typing import Optional, TypeVar, Dict
-
+from typing import Optional, TypeVar, Dict, Any
+from typing import TypeVar, Iterable, Tuple, Union
 from pydantic import BaseModel, Field
 
 T = TypeVar('T')
@@ -60,7 +60,7 @@ class UserCreate(BaseModel):
     family_name: str
     email: str
     id_social: str
-    password: str | None
+    password: Any  # str
 
     class Config:
         schema_extra = {
@@ -107,9 +107,9 @@ class Stats(BaseModel):
 class Rarity(BaseModel):
     idRarity: int
     XP: int
-    Icon: str | None
+    Icon: Any
     Name: str
-    Min_XP: int | None
+    Min_XP: Any  # int
 
     class Config:
         schema_extra = {
