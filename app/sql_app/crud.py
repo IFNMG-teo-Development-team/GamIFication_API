@@ -68,8 +68,15 @@ def get_badges(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Badge).offset(skip).limit(limit).all()
 
 
-def get_gadge_by_id(db: Session, id_badge: int):
+def get_badge_by_id(db: Session, id_badge: int):
     return db.query(models.Badge).filter(models.Badge.idBadge == id_badge).first()
+
+
+def get_badge_by_user(db: Session, id_social: str):
+    user = get_user_by_id_social(db, id_social=id_social)
+    if not user:
+        return None, True
+    return db.query(models.Badge).filter(models.Badge.User_idUser == user.idUser).all(), False
 
 
 def create_user_badge(db: Session, badge: schemas.Badge):
@@ -83,7 +90,8 @@ def create_user_badge(db: Session, badge: schemas.Badge):
         db.add(badges)
         db.commit()
         db.refresh(badges)
-        email.send_email(email_receiver=user.email, id_badge=badges.idBadge)
+        email.send_email(email_receiver=user.email, id_badge=badges.idBadge,
+                         title=badges.name, description=badges.description)
     except:
         error = True
     return error
@@ -104,9 +112,9 @@ def get_stats_by_user_social_id(db: Session, social_id_user: str):
 
 def create_stats(db: Session, stats: schemas.StatsCreate):
     error = False
+    statss = None
     try:
-        statss = models.Stats(Badge_idBadge=stats.Badge_idBadge, User_idUser=stats.User_idUser,
-                              Date_Acquirement=f"{datetime.now()}")
+        statss = models.Stats(Badge_idBadge=stats.Badge_idBadge, User_idUser=stats.User_idUser)
 
         db.add(statss)
         db.commit()
@@ -120,11 +128,6 @@ def create_stats(db: Session, stats: schemas.StatsCreate):
 # ----------------------------------- CRUD Rarity -----------------------------------
 def get_rarity(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Rarity).offset(skip).limit(limit).all()
-
-
-def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
-
 
 
 def get_rarity_by_id(db: Session, id_rarity: int):

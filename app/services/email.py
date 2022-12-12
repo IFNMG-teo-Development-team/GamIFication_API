@@ -23,12 +23,14 @@ def image_to_bytes(image: Image):
     return bytes_array
 
 
-def send_email(email_receiver: str, id_badge: int):
-    body_email = """
+def send_email(email_receiver: str, id_badge: int, title: str, description: str):
+    body_email = f"""
         <h1> Você criou uma nova medalha </h1>
- 
+        
+        <p> Nome: {title}
+        <p> Descrição: {description}
+        
         <p>Disponibilize o QRCode abaixo da forma que achar melhor.
-
         """
 
     msg = email.message.EmailMessage()

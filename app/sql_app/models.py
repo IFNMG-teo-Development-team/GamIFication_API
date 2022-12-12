@@ -53,7 +53,7 @@ class Stats(Base):
     __tablename__ = "stats"
 
     ID = Column(Integer, primary_key=True, index=True)
-    Date_Acquirement = Column(DATETIME)
+    Date_Acquirement = Column(DATETIME, default=func.now())
     Badge_idBadge = Column(Integer, ForeignKey("Badge.idBadge"))
     User_idUser = Column(Integer, ForeignKey("User.idUser"))
 

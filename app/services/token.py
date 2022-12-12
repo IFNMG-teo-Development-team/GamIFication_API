@@ -10,24 +10,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-ACCESS_TOKEN_EXPIRE_MINUTES = 30  # 30 minutes
-REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 30 minutes
+# REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 ALGORITHM = "HS256"
 JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
 JWT_REFRESH_SECRET_KEY = os.environ['JWT_REFRESH_SECRET_KEY']
-
-
-def create_access_token(user: dict):
-    data = user.copy()
-    expiracao = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    data.update({'exp': expiracao})
-    token_jwt = jwt.encode(data, JWT_SECRET_KEY, algorithm=ALGORITHM)
-    return token_jwt
-
-
-def verify_access_token(token: str):
-    data = jwt.decode(token, JWT_SECRET_KEY, algorithms=ALGORITHM)
-    return data.get('sub')
 
 
 class JWTRepo:
@@ -37,7 +24,7 @@ class JWTRepo:
         if expires_delta:
             expire = datetime.utcnow() + expires_delta
         else:
-            expire = datetime.utcnow() + timedelta(minutes=15)
+            expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         to_encode.update({"exp": expire})
         encode_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=ALGORITHM)
 

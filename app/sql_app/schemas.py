@@ -12,24 +12,42 @@ class Badge(BaseModel):
     date_create: datetime
     date_end: datetime
     description: str
-
     Rarity_idRarity: int
     User_idUser: int
 
     class Config:
+        schema_extra = {
+            "example": {
+                "idBadge": 1,
+                "name": "Realizar TCC II",
+                "date_create": "2022-12-11 12:57:12",
+                "date_end": "2022-12-11 12:57:12",
+                "description": "Informações sobre a badge",
+                "Rarity_idRarity": 1,
+                "User_idUser": 5
+            }
+        }
         orm_mode = True
 
 
 class BadgeCreate(BaseModel):
     name: str
-    date_create: datetime
     date_end: datetime
     description: str
-
     Rarity_idRarity: int
     User_idUser: int
 
     class Config:
+        schema_extra = {
+            "example": {
+                "idBadge": 1,
+                "name": "Realizar TCC I",
+                "date_end": "2022-12-11 12:57:12",
+                "description": "Informações sobre a badge",
+                "Rarity_idRarity": 1,
+                "User_idUser": 5
+            }
+        }
         orm_mode = True
 
 
