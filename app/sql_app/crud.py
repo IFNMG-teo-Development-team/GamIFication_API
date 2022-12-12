@@ -110,19 +110,23 @@ def get_stats_by_user_social_id(db: Session, social_id_user: str):
         return None, True
 
 
-def create_stats(db: Session, stats: schemas.StatsCreate):
+def create_stats(db: Session, stats_create: schemas.StatsCreate):
     error = False
-    statss = None
-    try:
-        statss = models.Stats(Badge_idBadge=stats.Badge_idBadge, User_idUser=stats.User_idUser)
+    stats = None
 
-        db.add(statss)
-        db.commit()
-        db.refresh(statss)
+    try:
+        one_stats = db.query(models.Stats).filter(Badge_idBadge=stats_create.Badge_idBadge,
+                                                  User_idUser=stats_create.User_idUser)
+        if not one_stats:
+            stats = models.Stats(Badge_idBadge=stats_create.Badge_idBadge, User_idUser=stats_create.User_idUser)
+
+            db.add(stats)
+            db.commit()
+            db.refresh(stats)
     except:
         error = True
 
-    return statss, error
+    return stats, error
 
 
 # ----------------------------------- CRUD Rarity -----------------------------------
