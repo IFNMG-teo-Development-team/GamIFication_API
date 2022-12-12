@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-
 from routers import users, badges, stats, login, rarity
 
-app = FastAPI(title="Gamific API",docs_url="/")
+app = FastAPI(title="Gamific API", docs_url="/")
 
 app.add_middleware(
     CORSMiddleware,
