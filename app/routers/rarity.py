@@ -15,11 +15,13 @@ router = APIRouter(
 )
 
 
-@router.get("/", status_code=status.HTTP_200_OK, response_model=List[schemas.Rarity])
+@router.get("/", status_code=status.HTTP_200_OK, response_model=List[schemas.Rarity],
+            summary="Retorna todas as rarities")
 async def read_rarities(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return get_rarity(db, skip=skip, limit=limit)
 
 
-@router.get("/{id_rarity}", status_code=status.HTTP_200_OK, response_model=schemas.Rarity)
+@router.get("/{id_rarity}", status_code=status.HTTP_200_OK, response_model=schemas.Rarity,
+            summary="Retorna a rarity pelo id")
 async def read_rarity(id_rarity: int, db: Session = Depends(get_db)):
     return get_rarity_by_id(db, id_rarity)

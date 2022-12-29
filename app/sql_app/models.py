@@ -56,6 +56,7 @@ class Stats(Base):
     Date_Acquirement = Column(DATETIME, default=func.now())
     Badge_idBadge = Column(Integer, ForeignKey("Badge.idBadge"))
     User_idUser = Column(Integer, ForeignKey("User.idUser"))
+    Soft_delete = Column(DATETIME)
 
     creator = relationship("User", back_populates="creator")
     badge_stats = relationship("Badge", back_populates="badge_stats")

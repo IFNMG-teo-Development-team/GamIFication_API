@@ -18,7 +18,6 @@ JWT_REFRESH_SECRET_KEY = os.environ['JWT_REFRESH_SECRET_KEY']
 
 
 class JWTRepo:
-
     def generate_token(data: dict, expires_delta: Optional[timedelta] = None):
         to_encode = data.copy()
         if expires_delta:

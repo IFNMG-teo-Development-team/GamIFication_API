@@ -16,12 +16,14 @@ router = APIRouter(
 )
 
 
-@router.get("/", status_code=status.HTTP_200_OK, response_model=List[schemas.Stats])
+@router.get("/", status_code=status.HTTP_200_OK, response_model=List[schemas.Stats],
+            summary="Retorna todas as badges já concluídas por todos os usuários")
 async def read_all_stats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return get_stats(db, skip=skip, limit=limit)
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Stats)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Stats,
+             summary="Salva uma badge coletada")
 async def Add_new_stats(db: Session = Depends(get_db), stats_badge: schemas.StatsCreate = None):
     stats, error = create_stats(db, stats_badge)
     if error:
@@ -30,7 +32,8 @@ async def Add_new_stats(db: Session = Depends(get_db), stats_badge: schemas.Stat
     return stats
 
 
-@router.get("/{user_id_social}", status_code=status.HTTP_200_OK, response_model=List[schemas.Stats])
+@router.get("/{user_id_social}", status_code=status.HTTP_200_OK, response_model=List[schemas.Stats],
+            summary="Retorna só as badges adquiridas por um usuário")
 async def read_stats_by_user(db: Session = Depends(get_db), user_id_social=str):
     stats, error = get_stats_by_user_social_id(db, user_id_social)
     if error:

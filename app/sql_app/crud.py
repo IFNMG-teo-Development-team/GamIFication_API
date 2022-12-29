@@ -2,9 +2,11 @@ import datetime
 from datetime import datetime
 from passlib.context import CryptContext
 from services import email
+from sqlalchemy import select, Table, MetaData, text
 from sqlalchemy.orm import Session
 
 from . import models, schemas
+from .database import engine
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -38,6 +40,24 @@ def change_type_user(db: Session, type_user: int, id_social: str):
     return user, error
 
 
+def ranking(db: Session):
+    metadata = MetaData()
+    metadata.bind = engine
+    view = Table("ranking", metadata, autoload=True)
+    query = select([view]).where()
+    result = db.execute(query)
+    rows = result.all()
+    return rows
+
+
+def user_data(db: Session, iduser: int):
+    metadata = MetaData()
+    metadata.bind = engine
+    result = db.execute(text("""SELECT * FROM ranking WHERE idUser = """ + str(iduser)))
+    row = result.first()
+    return row
+
+
 def create_user(db: Session, user: schemas.UserCreate):
     error = False
     users = None
@@ -52,6 +72,7 @@ def create_user(db: Session, user: schemas.UserCreate):
         else:
             users = models.User(given_name=user.given_name, family_name=user.family_name, email=user.email,
                                 password=hashed_password, id_social=user.id_social)
+
         db.add(users)
         db.commit()
         db.refresh(users)
@@ -64,6 +85,27 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 
 # ----------------------------------- CRUD Badges -----------------------------------
+def badges_status(db: Session, iduser: int):
+    metadata = MetaData()
+    metadata.bind = engine
+    result = db.execute(text(f"""
+    SELECT 
+    Badge.idBadge, Badge.Name AS name, Badge.Description as description, Badge.Date_Create as date_create, Badge.Date_End as date_end, r.Name as rarity,
+    IF(Badge.idBadge IN (SELECT 
+                Badge_idBadge
+            FROM
+                stats
+            WHERE
+                User_idUser = {iduser}),
+        'Adquirida',
+        'Não Adquirida') AS situacao
+    FROM
+    Badge iNNER JOIN Rarity as r ON (Badge.Rarity_idRarity = r.idRarity) WHERE (SELECT XP FROM ranking WHERE idUser = {iduser}) >= r.Min_XP ORDER BY situacao
+    """))
+    badges = result.all()
+    return badges
+
+
 def get_badges(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Badge).offset(skip).limit(limit).all()
 
@@ -117,7 +159,6 @@ def create_stats(db: Session, stats_create: schemas.StatsCreate):
         stats = db.query(models.Stats).filter(models.Stats.Badge_idBadge == stats_create.Badge_idBadge,
                                               models.Stats.User_idUser == stats_create.User_idUser).first()
         if not stats:
-
             stats = models.Stats(Badge_idBadge=stats_create.Badge_idBadge, User_idUser=stats_create.User_idUser)
 
             db.add(stats)

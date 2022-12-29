@@ -1,6 +1,6 @@
 from datetime import datetime
-from typing import Optional, TypeVar, Dict, Any
-from typing import TypeVar, Iterable, Tuple, Union
+from typing import Optional, Dict, Any
+from typing import TypeVar
 from pydantic import BaseModel, Field
 
 T = TypeVar('T')
@@ -25,6 +25,30 @@ class Badge(BaseModel):
                 "description": "Informações sobre a badge",
                 "Rarity_idRarity": 1,
                 "User_idUser": 5
+            }
+        }
+        orm_mode = True
+
+
+class BadgesMy(BaseModel):
+    idBadge: int
+    name: str
+    date_create: datetime
+    date_end: datetime
+    description: str
+    rarity: str
+    situacao: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "idBadge": 1,
+                "name": "Realizar TCC II",
+                "date_create": "2022-12-11 12:57:12",
+                "date_end": "2022-12-11 12:57:12",
+                "description": "Informações sobre a badge",
+                "rarity": "Bronze",
+                "situacao": "Não Adquirida"
             }
         }
         orm_mode = True
@@ -164,6 +188,8 @@ class ResponseSchema(BaseModel):
 
 class UserToken(BaseModel):
     idUser: int
+    XP: Optional[T] = None
+    Nivel: Optional[T] = None
     type: int
     given_name: str
     family_name: str
@@ -175,6 +201,8 @@ class UserToken(BaseModel):
         schema_extra = {
             "example": {
                 "idUser": 1,
+                "XP": 200,
+                "Nivel": "Bronze",
                 "type": 2,
                 "given_name": "Calvin",
                 "family_name": "IFeno",
@@ -186,4 +214,49 @@ class UserToken(BaseModel):
                 }
             }
         }
+        orm_mode = True
+
+
+class Ranking(BaseModel):
+    idUser: int
+    Nivel: str
+    XP: int
+    given_name: str
+    family_name: str
+
+    class Config:
+        schema_extra = {
+            "example":
+                [
+                    {
+                        "idUser": 6,
+                        "Nivel": "Prata",
+                        "XP": 1000,
+                        "given_name": "teste",
+                        "family_name": "1"
+                    },
+                    {
+                        "idUser": 7,
+                        "Nivel": "Bronze",
+                        "XP": 800,
+                        "given_name": "teste",
+                        "family_name": "2"
+                    },
+                    {
+                        "idUser": 5,
+                        "Nivel": "Bronze",
+                        "XP": 200,
+                        "given_name": "teste",
+                        "family_name": "3"
+                    },
+                    {
+                        "idUser": 10,
+                        "Nivel": "Bronze",
+                        "XP": 200,
+                        "given_name": "teste",
+                        "family_name": "4"
+                    }
+                ]
+        }
+
         orm_mode = True
