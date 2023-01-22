@@ -28,9 +28,9 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
 
-def change_type_user(db: Session, type_user: int, id_social: str):
+def change_type_user(db: Session, type_user: int, id_user: str):
     error = False
-    user = db.query(models.User).filter(models.User.id_social == id_social).first()
+    user = db.query(models.User).filter(models.User.idUser == id_user).first()
 
     try:
         user.type = type_user

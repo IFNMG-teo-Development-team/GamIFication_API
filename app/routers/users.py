@@ -27,7 +27,7 @@ async def read_user(id_social: str, db: Session = Depends(get_db)):
     return get_user_by_id_social(db, id_social=id_social)
 
 
-@router.patch("/{id_social}", status_code=status.HTTP_200_OK, response_model=schemas.User,
+@router.patch("/{id_user}", status_code=status.HTTP_200_OK, response_model=schemas.User,
               summary="Altera o tipo do usuário")
 async def update_type_user(id_social: str, type_user: int, db: Session = Depends(get_db)):
     user, error = change_type_user(db, type_user=type_user, id_social=id_social)
