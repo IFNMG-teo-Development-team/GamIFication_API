@@ -29,8 +29,8 @@ async def read_user(id_social: str, db: Session = Depends(get_db)):
 
 @router.patch("/{id_user}", status_code=status.HTTP_200_OK, response_model=schemas.User,
               summary="Altera o tipo do usuário")
-async def update_type_user(id_social: str, type_user: int, db: Session = Depends(get_db)):
-    user, error = change_type_user(db, type_user=type_user, id_social=id_social)
+async def update_type_user(id_user: str, type_user: int, db: Session = Depends(get_db)):
+    user, error = change_type_user(db, type_user=type_user, id_user=id_user)
     if error:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             detail="There was a problem when update a user")
